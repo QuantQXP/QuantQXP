@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>QuantQXP - Market News</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <h1>Market News</h1>
+    <div class="navbar">
+        <a href="index.html">Dashboard</a>
+        <a href="news.html">News</a>
+        <a href="analysis.html">Analysis</a>
+        <a href="forecasts.html">Forecasts</a>
+        <a href="profile.html">Profile</a>
+        <a href="private_markets.html">Private Markets</a>
+        <a href="foreign_markets.html">Foreign Markets</a>
+    </div>
+    <!-- Trending Market News -->
+    <h2>Trending Market News</h2>
+    <div class="trending-news">
+        <ul id="trendingNewsList">
+            <li><strong>Breaking:</strong> Fed signals rate cuts in 2025, markets rally.</li>
+            <li><strong>AI Boom:</strong> Nvidia leads tech rally with record Q1 sales.</li>
+            <li><strong>Bitcoin:</strong> Crypto markets hit $2 trillion as BTC surges past $65K.</li>
+        </ul>
+    </div>
+
+    <!-- Search Market News -->
+    <h2>Search Market News</h2>
+    <div class="news-search">
+        <input type="text" id="newsSearchInput" placeholder="Search for a ticker, market, or person...">
+    
+        <!-- Dropdown for Filtering -->
+        <select id="newsCategory">
+            <option value="all">All Categories</option>
+            <option value="earnings">Earnings News</option>
+            <option value="mergers">Mergers & Acquisitions</option>
+            <option value="insider">Insider Trades</option>
+            <option value="ratings">Analyst Ratings</option>
+        </select>
+
+        <button onclick="searchNews()">Search</button>
+    </div>
+    <div id="searchResults"></div>
+
+    <!-- Live Market Headlines (Auto-Updating) -->
+    <h2>Live Market Headlines</h2>
+    <div class="news-container" id="live-news">
+        <ul>
+            <li><strong>Breaking:</strong> Fed hints at rate cuts in late 2025, markets rally.</li>
+            <li><strong>Earnings:</strong> NVDA beats Q4 expectations, stock up 5% after hours.</li>
+            <li><strong>M&A:</strong> Apple reportedly in talks to acquire Tesla’s AI division.</li>
+        </ul>
+    </div>
+
+    <!-- Earnings Call Summaries -->
+    <h2>Earnings Call Summaries</h2>
+    <div class="earnings-summary">
+        <div class="earnings-item">
+            <h3>TSLA Earnings - Stock Reaction: <span class="green">+3.5%</span></h3>
+            <p><strong>CEO Elon Musk:</strong> "We expect full autonomy by 2026, but regulatory hurdles remain."</p>
+            <p><strong>CFO:</strong> "Margins slightly compressed due to higher raw material costs."</p>
+        </div>
+        <div class="earnings-item">
+            <h3>Apple Earnings - Stock Reaction: <span class="red">-2.1%</span></h3>
+            <p><strong>CEO Tim Cook:</strong> "iPhone demand remains steady, but services revenue is slowing."</p>
+            <p><strong>CFO:</strong> "Expect single-digit revenue growth next quarter."</p>
+        </div>
+    </div>
+
+    <!-- Insider Buying & Selling -->
+    <h2>Insider Buying & Selling</h2>
+    <div class="insider-transactions">
+        <table>
+            <tr>
+                <th>Company</th>
+                <th>Insider</th>
+                <th>Type</th>
+                <th>Shares</th>
+                <th>Price</th>
+            </tr>
+            <tr>
+                <td>AAPL</td>
+                <td>Tim Cook</td>
+                <td class="green">Buy</td>
+                <td>100,000</td>
+                <td>$180</td>
+            </tr>
+            <tr>
+                <td>NVDA</td>
+                <td>CFO</td>
+                <td class="red">Sell</td>
+                <td>200,000</td>
+                <td>$780</td>
+            </tr>
+            <tr>
+                <td>TSLA</td>
+                <td>Elon Musk</td>
+                <td class="green">Buy</td>
+                <td>500,000</td>
+                <td>$210</td>
+            </tr>
+        </table>
+    </div>
+
+    <!-- Analyst Upgrades & Downgrades -->
+    <h2>Stock Ratings</h2>
+    <div class="stock-ratings">
+        <table>
+            <tr>
+                <th>Firm</th>
+                <th>Stock</th>
+                <th>Action</th>
+                <th>New PT</th>
+                <th>Previous PT</th>
+            </tr>
+            <tr>
+                <td>Goldman Sachs</td>
+                <td>AMD</td>
+                <td class="green">Upgrade</td>
+                <td>$160</td>
+                <td>$140</td>
+            </tr>
+            <tr>
+                <td>Morgan Stanley</td>
+                <td>NFLX</td>
+                <td class="red">Downgrade</td>
+                <td>$550</td>
+                <td>$620</td>
+            </tr>
+        </table>
+    </div>
+
+    <!-- Major Market Events -->
+    <h2>Major Market Events</h2>
+    <div class="market-events">
+        <ul>
+            <li><strong>March 13:</strong> CPI Inflation Report - Forecast 3.2% (Prev. 3.1%)</li>
+            <li><strong>March 15:</strong> Fed Rate Decision - Expected Hold at 5.25%</li>
+        </ul>
+    </div>
+
+    <!-- JavaScript for Auto-Updating News -->
+    <script>
+        function updateLiveNews() {
+            const newsList = document.getElementById("live-news").querySelector("ul");
+            const newHeadlines = [
+                "<strong>Breaking:</strong> Fed hints at rate cuts in late 2025, markets rally.",
+                "<strong>Earnings:</strong> NVDA beats Q4 expectations, stock up 5% after hours.",
+                "<strong>Crypto:</strong> Bitcoin surges past $65,000 as ETF demand spikes.",
+                "<strong>Energy:</strong> Oil drops 3% as supply fears ease.",
+                "<strong>Tech:</strong> AI chip shortage continues, major firms struggle with supply chain."
+            ];
+
+            // Clear the current list and insert new headlines
+            newsList.innerHTML = "";
+            newHeadlines.forEach(headline => {
+                const li = document.createElement("li");
+                li.innerHTML = headline;
+                newsList.appendChild(li);
+            });
+        }
+
+        // Update the news every 10 seconds
+        setInterval(updateLiveNews, 10000); 
+
+        // Search Functionality for Market News
+        function searchNews() {
+            const query = document.getElementById("newsSearchInput").value.trim().toUpperCase();
+            const category = document.getElementById("newsCategory").value;
+            const searchResults = document.getElementById("searchResults");
+
+            // Clear previous results
+            searchResults.innerHTML = "";
+
+            // Static news data categorized
+            const newsDatabase = {
+                AAPL: {
+                    earnings: [
+                        "<strong>March 10:</strong> Apple stock surges 3% after revealing record MacBook sales.",
+                        "<strong>March 15:</strong> CEO Tim Cook hints at new partnerships in wearables sector."
+                    ],
+                    mergers: [
+                        "<strong>March 20:</strong> Apple rumored to acquire major AI chip company."
+                    ],
+                    insider: [
+                        "<strong>March 5:</strong> Tim Cook buys 50,000 shares of AAPL at $180."
+                    ],
+                    ratings: [
+                        "<strong>March 12:</strong> Goldman Sachs upgrades AAPL to 'Strong Buy'."
+                    ]
+                }
+            };
+
+            // Only support AAPL for now
+            if (query === "AAPL") {
+                let resultsHTML = `<h3>Search Results for AAPL - ${category.replace("all", "All Categories")}</h3><ul>`;
+                const selectedNews = newsDatabase.AAPL[category] || [...newsDatabase.AAPL.earnings, ...newsDatabase.AAPL.mergers, ...newsDatabase.AAPL.insider, ...newsDatabase.AAPL.ratings];
+
+                selectedNews.forEach(news => {
+                    resultsHTML += `<li>${news}</li>`;
+                });
+
+                resultsHTML += "</ul>";
+                searchResults.innerHTML = resultsHTML;
+            } else {
+                searchResults.innerHTML = "<p>No news found. Try searching for AAPL.</p>";
+            }
+        }
+
+        // Rotating Trending News
+        function updateTrendingNews() {
+            const trendingNews = [
+                "<strong>Breaking:</strong> Fed signals rate cuts in 2025, markets rally.",
+                "<strong>AI Boom:</strong> Nvidia leads tech rally with record Q1 sales.",
+                "<strong>Bitcoin:</strong> Crypto markets hit $2 trillion as BTC surges past $65K.",
+                "<strong>Oil Prices:</strong> Crude oil drops below $70 as OPEC revises demand forecasts."
+            ];
+    
+            let index = 0;
+            setInterval(() => {
+                document.getElementById("trendingNewsList").innerHTML = `<li>${trendingNews[index]}</li>`;
+                index = (index + 1) % trendingNews.length;
+            }, 5000);
+        }
+
+        updateTrendingNews();
+
+    </script>
+
+</body>
+</html>

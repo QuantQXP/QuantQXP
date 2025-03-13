@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>QuantQXP - Private Markets</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <h1>Private Market & Pre-IPO Insights</h1>
+
+    <div class="navbar">
+        <a href="index.html">Dashboard</a>
+        <a href="news.html">News</a>
+        <a href="analysis.html">Analysis</a>
+        <a href="forecasts.html">Forecasts</a>
+        <a href="profile.html">Profile</a>
+        <a href="private_markets.html">Private Markets</a>
+        <a href="foreign_markets.html">Foreign Markets</a>
+    </div>
+
+    <!-- Live Private Company Database -->
+    <h2>Live Private Company Database</h2>
+    <div class="company-filter">
+        <input type="text" id="searchCompany" placeholder="Search company...">
+        <select id="sectorFilter">
+            <option value="">All Sectors</option>
+            <option value="AI">AI & Tech</option>
+            <option value="Fintech">Fintech</option>
+            <option value="Healthcare">Healthcare</option>
+            <option value="E-Commerce">E-Commerce</option>
+        </select>
+        <button onclick="filterCompanies()">Apply Filter</button>
+    </div>
+
+    <table id="privateCompanies">
+        <tr>
+            <th>Company</th>
+            <th>Industry</th>
+            <th>Valuation</th>
+            <th>Funding Round</th>
+            <th>Updated</th>
+        </tr>
+    </table>
+
+    <!-- Private Equity Buyouts & Transactions -->
+    <h2>Private Equity Transactions</h2>
+    <div class="pe-transaction-container">
+        <canvas id="peTransactionChart"></canvas>
+    </div>
+
+    <!-- Fund Performance Metrics -->
+    <h2>Fund Performance Metrics</h2>
+    <div class="fund-filter">
+        <input type="text" id="searchFund" placeholder="Search fund...">
+        <select id="strategyFilter">
+            <option value="">All Strategies</option>
+            <option value="VC">Venture Capital</option>
+            <option value="Buyout">Private Equity Buyout</option>
+            <option value="Growth">Growth Equity</option>
+        </select>
+        <button onclick="filterFunds()">Apply Filter</button>
+    </div>
+
+    <table id="fundPerformance">
+        <tr>
+            <th>Fund</th>
+            <th>Strategy</th>
+            <th>10-Year Avg Return</th>
+            <th>Assets Under Mgmt</th>
+            <th>Sector Focus</th>
+        </tr>
+    </table>
+
+    <div class="fund-performance-chart">
+        <canvas id="fundPerformanceChart"></canvas>
+    </div>
+
+    <!-- Research Reports Section -->
+    <h2>Exclusive Private Market Research Reports</h2>
+    <div class="report-list">
+        <ul>
+            <li><a href="#">🚀 AI Startup X: Disrupting Cloud Computing (Full Report)</a></li>
+            <li><a href="#">🏥 Healthcare Tech Y: The Future of Telemedicine (Full Report)</a></li>
+            <li><a href="#">💳 Fintech Z: Redefining Cross-Border Payments (Full Report)</a></li>
+        </ul>
+    </div>
+
+    <!-- Include Chart.js -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+    <!-- JavaScript for Private Market Analysis -->
+    <script>
+        const privateCompanies = [
+            { name: "OpenAI", industry: "AI", valuation: "$90B", funding: "Series E", updated: "Today" },
+            { name: "Stripe", industry: "Fintech", valuation: "$50B", funding: "Series F", updated: "Today" },
+            { name: "ByteDance", industry: "Social Media", valuation: "$220B", funding: "Private", updated: "Yesterday" },
+            { name: "Databricks", industry: "AI", valuation: "$43B", funding: "Series H", updated: "Today" },
+            { name: "Klarna", industry: "Fintech", valuation: "$15B", funding: "Series G", updated: "Yesterday" }
+        ];
+
+        const funds = [
+            { name: "Sequoia Capital", strategy: "VC", return: "24%", aum: "$85B", sector: "Tech, AI" },
+            { name: "Blackstone", strategy: "Buyout", return: "18%", aum: "$650B", sector: "Healthcare, Real Estate" },
+            { name: "Tiger Global", strategy: "VC", return: "21%", aum: "$75B", sector: "E-Commerce, Fintech" },
+            { name: "KKR", strategy: "Buyout", return: "15%", aum: "$420B", sector: "Infrastructure, Energy" },
+            { name: "Andreessen Horowitz", strategy: "VC", return: "26%", aum: "$35B", sector: "Crypto, Web3" }
+        ];
+
+        function displayCompanies(companies) {
+            const table = document.getElementById("privateCompanies");
+            table.innerHTML = `
+                <tr>
+                    <th>Company</th>
+                    <th>Industry</th>
+                    <th>Valuation</th>
+                    <th>Funding Round</th>
+                    <th>Updated</th>
+                </tr>
+            `;
+            companies.forEach(company => {
+                table.innerHTML += `
+                    <tr>
+                        <td>${company.name}</td>
+                        <td>${company.industry}</td>
+                        <td>${company.valuation}</td>
+                        <td>${company.funding}</td>
+                        <td>${company.updated}</td>
+                    </tr>
+                `;
+            });
+        }
+
+        function runPETransactionChart() {
+            const ctx = document.getElementById('peTransactionChart').getContext('2d');
+            new Chart(ctx, {
+                type: 'bar',
+                data: {
+                    labels: ["Blackstone", "KKR", "Carlyle", "TPG", "Apollo"],
+                    datasets: [{
+                        label: "Recent Buyouts ($B)",
+                        data: [30, 22, 18, 14, 12],
+                        backgroundColor: ["blue", "green", "red", "purple", "orange"]
+                    }]
+                },
+                options: { responsive: true }
+            });
+        }
+
+        function displayFunds(funds) {
+            const table = document.getElementById("fundPerformance");
+            table.innerHTML = `
+                <tr>
+                    <th>Fund</th>
+                    <th>Strategy</th>
+                    <th>10-Year Avg Return</th>
+                    <th>Assets Under Mgmt</th>
+                    <th>Sector Focus</th>
+                </tr>
+            `;
+            funds.forEach(fund => {
+                table.innerHTML += `
+                    <tr>
+                        <td>${fund.name}</td>
+                        <td>${fund.strategy}</td>
+                        <td>${fund.return}</td>
+                        <td>${fund.aum}</td>
+                        <td>${fund.sector}</td>
+                    </tr>
+                `;
+            });
+        }
+
+        function runFundPerformanceChart() {
+            const ctx = document.getElementById('fundPerformanceChart').getContext('2d');
+            new Chart(ctx, {
+                type: 'bar',
+                data: {
+                    labels: funds.map(f => f.name),
+                    datasets: [{
+                        label: "10-Year Avg Return (%)",
+                        data: funds.map(f => parseFloat(f.return)),
+                        backgroundColor: ["blue", "green", "red", "purple", "orange"]
+                    }]
+                },
+                options: { responsive: true }
+            });
+        }
+
+        window.onload = function() {
+            displayCompanies(privateCompanies);
+            runPETransactionChart();
+            displayFunds(funds);
+            runFundPerformanceChart();
+        };
+    </script>
+</body>
+</html>

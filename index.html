@@ -1,0 +1,355 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>QuantQXP - Dashboard</title>
+    <link rel="stylesheet" href="styles.css">
+    <style>
+        body {
+            background-color: black;
+            color: green;
+            font-family: 'Courier New', monospace;
+            text-align: center;
+        }
+        .navbar {
+            margin: 20px;
+        }
+        .navbar button {
+            background-color: green;
+            color: black;
+            font-size: 16px;
+            padding: 10px 20px;
+            margin: 10px;
+            border: none;
+            cursor: pointer;
+        }
+        .navbar button:hover {
+            background-color: white;
+        }
+    </style>
+</head>
+<body>
+    <h1>Welcome to QuantQXP</h1>
+    <div class="navbar">
+        <a href="index.html">Dashboard</a>
+        <a href="news.html">News</a>
+        <a href="analysis.html">Analysis</a>
+        <a href="forecasts.html">Forecasts</a>
+        <a href="profile.html">Profile</a>
+        <a href="private_markets.html">Private Markets</a>
+        <a href="foreign_markets.html">Foreign Markets</a>
+    </div>
+
+    <!-- Market Charts -->
+    <div class="charts-container">
+        <div class="chart-box">
+            <h3>S&P 500</h3>
+            <canvas id="sp500Chart"></canvas>
+        </div>
+        <div class="chart-box">
+            <h3>Nasdaq</h3>
+            <canvas id="nasdaqChart"></canvas>
+        </div>
+        <div class="chart-box">
+            <h3>Dow Jones</h3>
+            <canvas id="djiChart"></canvas>
+        </div>
+        <div class="chart-box">
+            <h3>Russell 2000</h3>
+            <canvas id="russellChart"></canvas>
+        </div>
+        <div class="chart-box">
+            <h3>Nasdaq 100</h3>
+            <canvas id="nasdaq100Chart"></canvas>
+        </div>
+    </div>
+
+        <!-- Bond Market Live Charts -->
+        <h2>Bond Market Price Action</h2>
+        <div class="bond-indices-container">
+            <div class="chart-box"><canvas id="us10yChart"></canvas><p>US 10Y Treasury</p></div>
+            <div class="chart-box"><canvas id="us30yChart"></canvas><p>US 30Y Treasury</p></div>
+            <div class="chart-box"><canvas id="bundChart"></canvas><p>Germany 10Y Bund</p></div>
+            <div class="chart-box"><canvas id="giltChart"></canvas><p>UK 10Y Gilt</p></div>
+            <div class="chart-box"><canvas id="corporateChart"></canvas><p>Corporate Bonds (LQD)</p></div>
+            <div class="chart-box"><canvas id="highYieldChart"></canvas><p>High Yield Bonds (HYG)</p></div>
+        </div>
+
+        <!-- Bond Market Ticker Bar -->
+        <h2>Bond Market Ticker</h2>
+        <div class="bond-ticker-bar">
+            <marquee id="bondTicker"></marquee>
+        </div>
+
+         <!-- Include Chart.js -->
+        <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+        <!-- JavaScript for Live Bond Charts & Ticker -->
+        <script>
+            function generateFakeBondData() {
+                return Array.from({ length: 20 }, () => (Math.random() * 0.5 + 2).toFixed(2));
+            }
+
+            function createBondChart(canvasId, label) {
+                const ctx = document.getElementById(canvasId).getContext('2d');
+                return new Chart(ctx, {
+                    type: 'line',
+                    data: {
+                        labels: Array.from({ length: 20 }, (_, i) => i),
+                        datasets: [{
+                            label: '',
+                            data: generateFakeBondData(),
+                            borderColor: 'yellow',
+                            backgroundColor: 'rgba(255, 215, 0, 0.2)',
+                            borderWidth: 2
+                        }]
+                    },
+                    options: {
+                        animation: false,
+                        responsive: true,
+                        maintainAspectRatio: false,
+                        scales: {
+                            x: { display: false },
+                            y: { ticks: { color: 'yellow' } }
+                        }
+                    }
+                });
+            }
+
+            function runBondMarketCharts() {
+                createBondChart('us10yChart', 'US 10Y Treasury');
+                createBondChart('us30yChart', 'US 30Y Treasury');
+                createBondChart('bundChart', 'Germany 10Y Bund');
+                createBondChart('giltChart', 'UK 10Y Gilt');
+                createBondChart('corporateChart', 'Corporate Bonds (LQD)');
+                createBondChart('highYieldChart', 'High Yield Bonds (HYG)');
+            }
+
+            function updateBondTicker() {
+                const tickerData = [
+                    "🇺🇸 US 10Y: 4.15% |",
+                    "🇺🇸 US 30Y: 4.50% |",
+                    "🇩🇪 Germany 10Y: 2.75% |",
+                    "🇬🇧 UK 10Y: 3.90% |",
+                    "🏢 Corporate Bonds (LQD): 5.20% |",
+                    "🔥 High Yield (HYG): 7.80% |"
+                ];
+                document.getElementById("bondTicker").innerText = tickerData.join(" ");
+            }
+
+            window.onload = function() {
+                runBondMarketCharts();
+                updateBondTicker();
+                setInterval(updateBondTicker, 10000);
+            };
+        </script>
+
+    <!-- Top Trading Tickers -->
+    <h2>Top 25 Trading Tickers</h2>
+    <div class="tickers-container" id="tickers"></div>
+
+    <!-- Daily Briefing Section -->
+    <div class="briefing-macro-container">
+        <!-- Daily Briefing -->
+        <div class="daily-briefing" id="dailyBriefing">
+            <h2>Daily Briefing</h2>
+            <ul>
+                <li><strong>Fed Signals Rate Pause:</strong> Federal Reserve hints at holding interest rates steady amid inflation concerns.</li>
+                <li><strong>Tech Stocks Rally:</strong> Nasdaq jumps 2% as AI and semiconductor stocks surge.</li>
+                <li><strong>Oil Prices Dip:</strong> Crude oil falls below $75 per barrel as supply concerns ease.</li>
+                <li><strong>Jobs Data Strong:</strong> Unemployment rate remains low, boosting market confidence.</li>
+                <li><strong>Apple Earnings Beat:</strong> AAPL stock climbs 5% after stronger-than-expected quarterly results.</li>
+            </ul>
+        </div>
+
+        <!-- Macro Alerts -->
+        <div class="macro-alerts" id="macroAlerts">
+            <h2>Macro Alerts</h2>
+            <ul>
+                <li><strong>March 13:</strong> CPI Inflation Report</li>
+                <li><strong>March 14:</strong> Jobless Claims Data</li>
+                <li><strong>March 15:</strong> Consumer Sentiment Index</li>
+                <li><strong>March 20:</strong> FOMC Interest Rate Decision</li>
+                <li><strong>March 22:</strong> PMI Manufacturing Index</li>
+            </ul>
+        </div>
+
+        <!-- Major Earnings -->
+        <div class="earnings-box" id="earnings">
+            <h2>Major Earnings</h2>
+            <ul>
+                <li><strong>March 12:</strong> AAPL – EPS: <span class="green">2.34</span> (Est: 2.20), Rev: <span class="green">$95.6B</span> (Est: $93.1B)</li>
+                <li><strong>March 13:</strong> TSLA – EPS: <span class="red">0.87</span> (Est: 0.90), Rev: <span class="red">$23.2B</span> (Est: $24.0B)</li>
+                <li><strong>March 14:</strong> NVDA – EPS: <span class="green">4.56</span> (Est: 4.30), Rev: <span class="green">$14.3B</span> (Est: $13.9B)</li>
+                <li><strong>March 15:</strong> AMZN – EPS: <span class="green">1.12</span> (Est: 1.05), Rev: <span class="green">$145.7B</span> (Est: $144.2B)</li>
+                <li><strong>March 16:</strong> JPM – EPS: <span class="red">2.88</span> (Est: 2.95), Rev: <span class="red">$31.2B</span> (Est: $32.0B)</li>
+            </ul>
+        </div>
+    </div>
+
+<div class="dashboard-container">
+
+    <!-- Sector Heatmap -->
+    <h2>Sector Performance</h2>
+    <div class="sector-heatmap">
+        <div class="sector-box green">Technology +2.1%</div>
+        <div class="sector-box red">Energy -1.5%</div>
+        <div class="sector-box green">Financials +0.8%</div>
+        <div class="sector-box red">Healthcare -0.9%</div>
+        <div class="sector-box green">Consumer Discretionary +1.3%</div>
+        <div class="sector-box red">Industrials -0.7%</div>
+        <div class="sector-box green">Materials +0.5%</div>
+        <div class="sector-box red">Real Estate -1.1%</div>
+    </div>
+
+    <!-- Fear & Greed Index -->
+    <h2>Fear & Greed Index</h2>
+    <div class="fear-greed-meter">
+        <div class="meter-bar" id="meter-bar"></div>
+        <p id="meter-label">Current Sentiment: Neutral</p>
+    </div>
+
+    <!-- Institutional Order Flow -->
+    <h2>Institutional Order Flow</h2>
+    <div class="order-flow-container">
+        <div class="order-flow-box">
+            <h3>Biggest Buys</h3>
+            <ul>
+                <li><strong>NFLX:</strong> $200M</li>
+                <li><strong>NVDA:</strong> $180M</li>
+                <li><strong>GOOGL:</strong> $150M</li>
+            </ul>
+        </div>
+        <div class="order-flow-box">
+            <h3>Biggest Sells</h3>
+            <ul>
+                <li><strong>TSLA:</strong> $210M</li>
+                <li><strong>AMZN:</strong> $190M</li>
+                <li><strong>AAPL:</strong> $170M</li>
+            </ul>
+        </div>
+    </div>
+
+    <!-- Unusual Options Activity -->
+    <h2>Unusual Options Activity</h2>
+    <div class="options-activity">
+        <p><strong>Call Buy:</strong> 10,000 contracts of AAPL $200C expiring 3/15</p>
+        <p><strong>Put Buy:</strong> 8,000 contracts of TSLA $180P expiring 3/22</p>
+    </div>
+
+    <!-- Forex & Commodities Prices -->
+    <h2>Forex & Commodities</h2>
+    <div class="forex-commodities">
+        <p><strong>USD Index (DXY):</strong> 102.5</p>
+        <p><strong>Gold (XAU/USD):</strong> $2,050</p>
+        <p><strong>Oil (WTI):</strong> $75.3</p>
+        <p><strong>Bitcoin (BTC/USD):</strong> $63,200</p>
+    </div>
+
+</div>
+
+
+    <!-- Include Chart.js -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    
+    <!-- JavaScript for Fake Live Updates -->
+    <script>
+        // Function to generate random data for charts
+        function generateRandomData(length) {
+            return Array.from({ length }, () => Math.floor(Math.random() * 100) + 3000);
+        }
+
+        function createChart(ctx, label) {
+            return new Chart(ctx, {
+                type: 'line',
+                data: {
+                    labels: Array.from({ length: 20 }, (_, i) => i),
+                    datasets: [{
+                        label: label,
+                        data: generateRandomData(20),
+                        borderColor: 'yellow',
+                        backgroundColor: 'rgba(255, 215, 0, 0.2)',
+                        borderWidth: 2
+                    }]
+                },
+                options: {
+                    animation: false,
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    scales: {
+                        x: { display: false },
+                        y: { ticks: { color: 'yellow' } }
+                    }
+                }
+            });
+        }
+
+        // Initialize charts
+        const charts = [
+            { id: 'sp500Chart', label: 'S&P 500' },
+            { id: 'nasdaqChart', label: 'Nasdaq' },
+            { id: 'djiChart', label: 'Dow Jones' },
+            { id: 'russellChart', label: 'Russell 2000' },
+            { id: 'nasdaq100Chart', label: 'Nasdaq 100' }
+        ];
+
+        const chartInstances = {};
+        charts.forEach(chart => {
+            const ctx = document.getElementById(chart.id).getContext('2d');
+            chartInstances[chart.id] = createChart(ctx, chart.label);
+        });
+
+        // Simulate live updates
+        setInterval(() => {
+            Object.values(chartInstances).forEach(chart => {
+                chart.data.datasets[0].data.shift();
+                chart.data.datasets[0].data.push(Math.floor(Math.random() * 100) + 3000);
+                chart.update();
+            });
+        }, 2000);
+
+        // Fake Live Ticker Movement
+        const tickers = [
+            "AAPL", "TSLA", "AMZN", "GOOGL", "MSFT", "NVDA", "META", "NFLX", "AMD", "INTC",
+            "BA", "DIS", "JPM", "GS", "WMT", "XOM", "T", "VZ", "PYPL", "KO",
+            "PFE", "MRNA", "PEP", "COST", "ADBE"
+        ];
+
+        function updateTickers() {
+            let tickersHTML = "";
+            tickers.forEach(ticker => {
+                const price = (Math.random() * 1000 + 50).toFixed(2);
+                const change = (Math.random() * 5 - 2.5).toFixed(2);
+                const color = change >= 0 ? 'lime' : 'red';
+                tickersHTML += `<div style="display:inline-block; width: 120px; padding: 5px; color: ${color};">
+                                    ${ticker}: $${price} (${change}%)
+                                </div>`;
+            });
+            document.getElementById('tickers').innerHTML = tickersHTML;
+        }
+
+        setInterval(updateTickers, 2000);
+        updateTickers();
+    </script>
+    // Simulating Fear & Greed Index
+    function updateMeter() {
+        let fearGreedValue = Math.floor(Math.random() * 100);
+        document.getElementById("meter-bar").style.width = fearGreedValue + "%";
+
+        let label = "Neutral";
+        if (fearGreedValue < 30) label = "Extreme Fear";
+        else if (fearGreedValue < 50) label = "Fear";
+        else if (fearGreedValue < 70) label = "Greed";
+        else label = "Extreme Greed";
+
+        document.getElementById("meter-label").innerText = "Current Sentiment: " + label;
+    }
+
+    // Update every 5 seconds
+    setInterval(updateMeter, 5000);
+    updateMeter();
+
+</body>
+
+</html>

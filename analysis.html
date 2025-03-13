@@ -1,0 +1,291 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>QuantQXP - Market Analysis</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <h1>Market Analysis</h1>
+
+    <div class="navbar">
+        <a href="index.html">Dashboard</a>
+        <a href="news.html">News</a>
+        <a href="analysis.html">Analysis</a>
+        <a href="forecasts.html">Forecasts</a>
+        <a href="profile.html">Profile</a>
+        <a href="private_markets.html">Private Markets</a>
+        <a href="foreign_markets.html">Foreign Markets</a>
+    </div>
+
+    <!-- Stock Screener -->
+    <h2>Stock Screener</h2>
+    <div class="screener-container">
+        <input type="text" id="screenerSearch" placeholder="Enter ticker (e.g., AAPL)">
+        <button onclick="runScreener()">Search</button>
+        <div id="screenerResults"></div>
+    </div>
+
+    <!-- Technical Analysis -->
+    <h2>Technical Analysis</h2>
+    <div class="chart-container">
+        <canvas id="technicalChart"></canvas>
+    </div>
+
+    <!-- Fundamental Analysis -->
+    <h2>Company Financials</h2>
+    <div class="financials-container">
+        <h3>Key Metrics</h3>
+        <ul>
+            <li><strong>Market Cap:</strong> $2.5 Trillion</li>
+            <li><strong>P/E Ratio:</strong> 27.5</li>
+            <li><strong>EPS Growth:</strong> +18% YoY</li>
+            <li><strong>Dividend Yield:</strong> 0.55%</li>
+            <li><strong>Free Cash Flow:</strong> $93B</li>
+        </ul>
+
+        <h3>Revenue & Net Income Trends</h3>
+        <div class="small-chart-container">
+           <canvas id="financialChart"></canvas>
+        </div>
+    </div>  <!-- ✅ Correctly closing the .financials-container div -->
+
+    <!-- Institutional Ownership Breakdown -->
+    <h2>Institutional Ownership</h2> 
+    <div class="ownership-container">
+        <ul>
+            <li><strong>Hedge Fund Holdings:</strong> 34% of outstanding shares</li> 
+            <li><strong>Mutual Fund Holdings:</strong> 25% of outstanding shares</li>
+            <li><strong>Insider Holdings:</strong> 2.5% (CEO, Board Members, Executives)</li>
+        </ul>
+    </div>
+
+    <!-- Options Flow Analysis -->
+    <h2>Options Flow & Unusual Activity</h2>
+    <div class="options-container">
+        <table>
+            <tr>
+                <th>Type</th>
+                <th>Strike Price</th>
+                <th>Expiration</th>
+                <th>Volume</th>
+                <th>Open Interest</th>
+            </tr>
+            <tr>
+                <td>Call</td>
+                <td>$200</td>
+                <td>April 19</td>
+                <td>50,000</td>
+                <td>75,000</td>
+            </tr>
+            <tr>
+                <td>Put</td>
+                <td>$180</td>
+                <td>April 19</td>
+                <td>40,000</td>
+                <td>60,000</td>
+            </tr>
+        </table>
+    </div>
+
+    <!-- Quantitative Analysis -->
+    <h2>Quantitative Analysis</h2>
+    <div class="quant-analysis">
+        <h3>Growth & Profitability Metrics</h3>
+        <ul>
+            <li><strong>Revenue Growth (YoY):</strong> +15%</li>
+            <li><strong>Net Income Growth (YoY):</strong> +12%</li>
+            <li><strong>Gross Margin:</strong> 44%</li>
+            <li><strong>Operating Margin:</strong> 30%</li>
+            <li><strong>Return on Equity (ROE):</strong> 45%</li>
+        </ul>
+
+        <h3>Valuation Ratios</h3>
+        <ul>
+            <li><strong>Price-to-Earnings (P/E):</strong> 27.5</li>
+            <li><strong>Price-to-Sales (P/S):</strong> 6.8</li>
+            <li><strong>EV/EBITDA:</strong> 22.4</li>
+        </ul>
+
+        <h3>Financial Stability</h3>
+        <ul>
+            <li><strong>Debt-to-Equity Ratio:</strong> 1.5</li>
+            <li><strong>Interest Coverage Ratio:</strong> 20.2</li>
+            <li><strong>Cash Reserves:</strong> $162B</li>
+        </ul>
+    </div>
+
+    <!-- Qualitative Analysis -->
+    <h2>Qualitative Analysis</h2>
+    <div class="qual-analysis">
+        <h3>Competitive Advantage</h3>
+        <ul>
+            <li><strong>Brand Strength:</strong> Apple has the most valuable brand globally.</li>
+            <li><strong>Product Ecosystem:</strong> Deep integration across iPhone, Mac, iPad, and Services.</li>
+            <li><strong>Customer Loyalty:</strong> 92% retention rate among iPhone users.</li>
+        </ul>
+
+        <h3>Industry & Market Position</h3>
+        <ul>
+            <li><strong>iPhone Growth:</strong> Continues to lead global smartphone sales.</li>
+            <li><strong>AI & Wearables:</strong> Increasing investment in AI and Vision Pro headset.</li>
+            <li><strong>Services Revenue:</strong> Apple’s App Store, iCloud, and Music generate high-margin revenue.</li>
+        </ul>
+
+        <h3>Risks & Challenges</h3>
+        <ul>
+            <li><strong>Regulatory Scrutiny:</strong> Anti-trust lawsuits and App Store restrictions.</li>
+            <li><strong>China Dependence:</strong> Heavy reliance on Chinese supply chains.</li>
+            <li><strong>Innovation Pressure:</strong> Need to deliver breakthrough products to maintain valuation.</li>
+        </ul>
+    </div>
+
+    <!-- SEC Filings -->
+    <h2>Latest SEC Filings</h2>
+    <div class="sec-filings">
+        <table>
+            <tr>
+                <th>Filing Type</th>
+                <th>Date</th>
+                <th>Summary</th>
+                <th>Link</th>
+            </tr>
+            <tr>
+                <td>10-K (Annual Report)</td>
+                <td>Feb 1, 2024</td>
+                <td>Strong revenue growth in services, but iPhone demand softens.</td>
+                <td><a href="https://www.sec.gov/ix?doc=/Archives/edgar/data/320193/000032019324000011/aapl-20231231.htm" target="_blank">View Filing</a></td>
+            </tr>
+            <tr>
+                <td>10-Q (Quarterly Report)</td>
+                <td>Nov 2, 2023</td>
+                <td>EPS beats expectations; Mac sales decline.</td>
+                <td><a href="https://www.sec.gov/ix?doc=/Archives/edgar/data/320193/000032019324000010/aapl-20230930.htm" target="_blank">View Filing</a></td>
+            </tr>
+            <tr>
+                <td>8-K (Earnings Release)</td>
+                <td>Jan 25, 2024</td>
+                <td>Apple announced $110B share buyback program.</td>
+                <td><a href="https://www.sec.gov/ix?doc=/Archives/edgar/data/320193/000032019324000009/aapl-8k.htm" target="_blank">View Filing</a></td>
+            </tr>
+            <tr>
+                <td>Proxy Statement</td>
+                <td>Mar 1, 2024</td>
+                <td>Executive compensation plan changes and board elections.</td>
+                <td><a href="https://www.sec.gov/ix?doc=/Archives/edgar/data/320193/000032019324000008/aapl-proxy2024.htm" target="_blank">View Filing</a></td>
+            </tr>
+        </table>
+    </div>
+
+    <!-- SEC Filing Key Takeaways -->
+    <h2>Key Takeaways from Latest Filings</h2>
+    <div class="sec-summary">
+        <h3>10-K (Annual Report - Feb 1, 2024)</h3>
+        <ul>
+            <li><strong>Revenue:</strong> $394B, +6% YoY</li>
+            <li><strong>iPhone Sales:</strong> $205B, flat YoY</li>
+            <li><strong>Services Revenue:</strong> $85B, +18% YoY</li>
+            <li><strong>Buyback Plan:</strong> $110B share repurchase program</li>
+        </ul>
+
+        <h3>8-K (Earnings Release - Jan 25, 2024)</h3>
+        <ul>
+            <li><strong>EPS:</strong> $2.10, beating estimates of $1.98</li>
+            <li><strong>CEO Tim Cook:</strong> "Strong growth in services and AI initiatives."</li>
+            <li><strong>CFO:</strong> "Margins remain stable despite supply chain challenges."</li>
+        </ul>
+    </div>
+
+    <!-- Market Sentiment Dashboard -->
+    <h2>Market Sentiment</h2>
+    <div class="sentiment-container">
+        <ul>
+            <li><strong>Fear & Greed Index:</strong> 72 (Greed)</li>
+            <li><strong>Put/Call Ratio:</strong> 0.85</li>
+            <li><strong>Advance/Decline Ratio:</strong> 1.25</li>
+        </ul>
+    </div>
+
+    <!-- Include Chart.js -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+    <!-- JavaScript for Analysis Features -->
+    <script>
+        // Stock Screener Functionality
+        function runScreener() {
+            const query = document.getElementById("screenerSearch").value.trim().toUpperCase();
+            const screenerResults = document.getElementById("screenerResults");
+
+            screenerResults.innerHTML = "";
+
+            if (query === "AAPL") {
+                screenerResults.innerHTML = `
+                    <h3>Results for AAPL</h3>
+                    <ul>
+                        <li><strong>Market Cap:</strong> $2.5T</li>
+                        <li><strong>P/E Ratio:</strong> 27.5</li>
+                        <li><strong>EPS Growth:</strong> +18%</li>
+                        <li><strong>Dividend Yield:</strong> 0.55%</li>
+                        <li><strong>Free Cash Flow:</strong> $93B</li>
+                    </ul>
+                `;
+            } else {
+                screenerResults.innerHTML = "<p>No data found. Try searching for AAPL.</p>";
+            }
+        }
+
+        // Technical Analysis Chart
+        const ctx = document.getElementById('technicalChart').getContext('2d');
+        new Chart(ctx, {
+            type: 'line',
+            data: {
+                labels: ["Mon", "Tue", "Wed", "Thu", "Fri"],
+                datasets: [{
+                    label: "Stock Price ($)",
+                    data: [175, 180, 178, 182, 185],
+                    borderColor: "yellow",
+                    borderWidth: 2
+                }]
+            },
+            options: {
+                responsive: true,
+                scales: {
+                    x: { display: true },
+                    y: { ticks: { color: 'yellow' } }
+                }
+            }
+        });
+
+        // Revenue & Net Income Chart
+        const financialCtx = document.getElementById('financialChart').getContext('2d');
+        new Chart(financialCtx, {
+            type: 'bar',
+            data: {
+                labels: ["2019", "2020", "2021", "2022", "2023"],
+                datasets: [
+                    {
+                        label: "Revenue ($B)",
+                        data: [260, 274, 365, 394, 412],
+                        backgroundColor: "yellow"
+                    },
+                    {
+                        label: "Net Income ($B)",
+                        data: [55, 57, 94, 100, 105],
+                        backgroundColor: "red"
+                    }
+                ]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false, // Prevent stretching
+                aspectRatio: 2, // Control height/width ratio
+                scales: {
+                    y: { ticks: { color: 'yellow' } }
+                }
+            }
+        });
+    </script>
+
+</body>
+</html>

@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>QuantQXP - Foreign Markets</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <h1>Global Market & Currency Forecasts</h1>
+
+    <div class="navbar">
+        <a href="index.html">Dashboard</a>
+        <a href="news.html">News</a>
+        <a href="analysis.html">Analysis</a>
+        <a href="forecasts.html">Forecasts</a>
+        <a href="profile.html">Profile</a>
+        <a href="private_markets.html">Private Markets</a>
+        <a href="foreign_markets.html">Foreign Markets</a>
+    </div>
+
+    <!-- Foreign Market Live Index Charts -->
+    <h2>Live Foreign Market Index Charts</h2>
+    <div class="foreign-indices-container">
+        <div class="chart-box"><canvas id="nikkeiChart"></canvas><p>Nikkei 225</p></div>
+        <div class="chart-box"><canvas id="ftseChart"></canvas><p>FTSE 100</p></div>
+        <div class="chart-box"><canvas id="daxChart"></canvas><p>DAX</p></div>
+        <div class="chart-box"><canvas id="shanghaiChart"></canvas><p>Shanghai</p></div>
+        <div class="chart-box"><canvas id="hangsengChart"></canvas><p>Hang Seng</p></div>
+    </div>
+
+    <!-- Foreign Markets Ticker Bar -->
+    <h2>Foreign Market Ticker</h2>
+    <div class="foreign-ticker-bar">
+        <marquee id="foreignTicker"></marquee>
+    </div>
+
+    <!-- Macroeconomic Risk Analysis -->
+    <h2>Macroeconomic Risk Analysis</h2>
+    <div class="macro-analysis-container">
+        <canvas id="macroRiskChart"></canvas>
+    </div>
+
+    <!-- Currency Volatility & FX Correlation -->
+    <h2>Currency Volatility & Correlation</h2>
+    <div class="fx-analysis-container">
+        <canvas id="fxChart"></canvas>
+    </div>
+
+    <!-- Sovereign Bond Yield Spreads -->
+    <h2>Sovereign Bond Yield Spreads</h2>
+    <div class="bond-spread-container">
+        <canvas id="bondChart"></canvas>
+    </div>
+
+    <!-- Capital Flow Analysis -->
+    <h2>Global Capital Flows</h2>
+    <div class="capital-flow-container">
+        <canvas id="capitalFlowChart"></canvas>
+    </div>
+
+    <!-- Emerging Market Risk Assessment -->
+    <h2>Emerging Market Risk Assessment</h2>
+    <div class="emerging-risk-container">
+        <canvas id="emergingRiskChart"></canvas>
+    </div>
+
+    <!-- Include Chart.js -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+    <!-- JavaScript for Foreign Market Analysis -->
+    <script>
+        function generateRandomData(min, max, length = 10) {
+            return Array.from({ length }, () => (Math.random() * (max - min) + min).toFixed(2));
+        }
+
+        function createChart(canvasId, label, dataRange) {
+            const ctx = document.getElementById(canvasId).getContext('2d');
+            return new Chart(ctx, {
+                type: 'line',
+                data: {
+                    labels: Array.from({ length: 10 }, (_, i) => `Q${i+1}`),
+                    datasets: [{
+                        label: label,
+                        data: generateRandomData(...dataRange),
+                        borderColor: 'yellow',
+                        backgroundColor: 'rgba(255, 215, 0, 0.2)',
+                        borderWidth: 2
+                    }]
+                },
+                options: { responsive: true }
+            });
+        }
+
+        function runForeignMarketCharts() {
+            createChart('nikkeiChart', 'Nikkei 225', [28000, 32000]);
+            createChart('ftseChart', 'FTSE 100', [7000, 7500]);
+            createChart('daxChart', 'DAX', [14000, 16000]);
+            createChart('shanghaiChart', 'Shanghai', [3000, 3500]);
+            createChart('hangsengChart', 'Hang Seng', [20000, 25000]);
+        }
+
+        function updateForeignTicker() {
+            const tickerData = [
+                "🇯🇵 Nikkei 225: +1.2% |",
+                "🇬🇧 FTSE 100: -0.8% |",
+                "🇩🇪 DAX: +0.5% |",
+                "🇨🇳 Shanghai: -1.1% |",
+                "🇭🇰 Hang Seng: +0.7% |",
+                "💲 USD/JPY: 150.25 |",
+                "💶 EUR/USD: 1.12 |",
+                "💷 GBP/USD: 1.30 |"
+            ];
+            document.getElementById("foreignTicker").innerText = tickerData.join(" ");
+        }
+
+        function runMacroAnalysis() {
+            createChart('macroRiskChart', 'Economic Stability Index', [50, 100]);
+        }
+
+        function runFXAnalysis() {
+            createChart('fxChart', 'FX Volatility (USD Pairs)', [0.5, 3.0]);
+        }
+
+        function runBondAnalysis() {
+            createChart('bondChart', 'Global Bond Yield Spreads', [0.5, 3.5]);
+        }
+
+        function runCapitalFlowAnalysis() {
+            createChart('capitalFlowChart', 'Investment Flow (Billion USD)', [-50, 150]);
+        }
+
+        function runEmergingRiskAnalysis() {
+            createChart('emergingRiskChart', 'Emerging Market Risk Level', [30, 90]);
+        }
+
+        window.onload = function() {
+            runForeignMarketCharts();
+            updateForeignTicker();
+            runMacroAnalysis();
+            runFXAnalysis();
+            runBondAnalysis();
+            runCapitalFlowAnalysis();
+            runEmergingRiskAnalysis();
+            setInterval(updateForeignTicker, 10000);
+        };
+    </script>
+</body>
+</html>

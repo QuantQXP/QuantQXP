@@ -1,0 +1,296 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>QuantQXP - Forecasts</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <h1>Market Forecasts & Simulations</h1>
+
+    <div class="navbar">
+        <a href="index.html">Dashboard</a>
+        <a href="news.html">News</a>
+        <a href="analysis.html">Analysis</a>
+        <a href="forecasts.html">Forecasts</a>
+        <a href="profile.html">Profile</a>
+        <a href="private_markets.html">Private Markets</a>
+        <a href="foreign_markets.html">Foreign Markets</a>
+    </div>
+
+    <!-- Monte Carlo Simulation -->
+    <h2>Monte Carlo Simulation</h2>
+    <div class="monte-carlo-container">
+        <button onclick="runMonteCarlo()">Run Monte Carlo Simulation</button>
+        <canvas id="monteCarloChart"></canvas>
+    </div>
+
+    <!-- AI-Based Forecasting -->
+    <h2>AI-Based Stock Forecasting</h2>
+    <div class="ai-forecast-container">
+        <button onclick="runAIForecast()">Run AI Forecast</button>
+        <canvas id="aiForecastChart"></canvas>
+    </div>
+
+    <!-- Volatility Forecasting -->
+    <h2>Volatility Forecasting</h2>
+    <div class="volatility-container">
+        <button onclick="runVolatilityForecast()">Predict Volatility</button>
+        <canvas id="volatilityChart"></canvas>
+    </div>
+
+    <!-- Portfolio Stress Testing -->
+    <h2>Portfolio Stress Testing</h2>
+    <div class="stress-test-container">
+        <button onclick="runStressTest()">Run Portfolio Stress Test</button>
+        <canvas id="stressTestChart"></canvas>
+    </div>
+
+    <!-- Options Pricing Model -->
+    <h2>Options Pricing Model (Black-Scholes)</h2>
+    <div class="options-container">
+        <button onclick="runOptionsPricing()">Calculate AAPL Option Value</button>
+        <p><strong>Option Price:</strong> <span id="optionValue">$0</span></p>
+    </div>
+
+    <!-- Include Chart.js -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+    <!-- JavaScript for Forecasting Features -->
+    <script>
+        function runMonteCarlo() {
+            const ctx = document.getElementById('monteCarloChart').getContext('2d');
+            let simulations = [];
+            let basePrice = 180;
+            let volatility = 2; 
+
+            for (let i = 0; i < 500; i++) { 
+                let price = basePrice;
+                let simulatedPrices = [price];
+
+                for (let j = 0; j < 12; j++) { 
+                    let randomMove = (Math.random() - 0.5) * volatility * 2;
+                    price += price * (randomMove / 100);
+                    simulatedPrices.push(price);
+                }
+                simulations.push(simulatedPrices);
+            }
+
+            let avgProjection = simulations.reduce((a, b) => a.map((c, i) => c + b[i]), new Array(13).fill(0))
+                .map(x => x / simulations.length);
+
+            new Chart(ctx, {
+                type: 'line',
+                data: {
+                    labels: ["Now", "1M", "3M", "6M", "9M", "12M"],
+                    datasets: [{
+                        label: "Monte Carlo Simulation",
+                        data: avgProjection,
+                        borderColor: "yellow",
+                        borderWidth: 2
+                    }]
+                },
+                options: { responsive: true }
+            });
+        }
+
+        function runAIForecast() {
+            const ctx = document.getElementById('aiForecastChart').getContext('2d');
+            let basePrice = 180;
+            let aiProjection = [basePrice];
+
+            for (let i = 0; i < 12; i++) {
+                let randomMove = (Math.random() - 0.5) * 2;
+                let trend = (basePrice * 0.5 / 100);
+                basePrice += trend + randomMove;
+                aiProjection.push(basePrice);
+            }
+
+            new Chart(ctx, {
+                type: 'line',
+                data: {
+                    labels: ["Now", "1M", "3M", "6M", "9M", "12M"],
+                    datasets: [{
+                        label: "AI Forecast",
+                        data: aiProjection,
+                        borderColor: "green",
+                        borderWidth: 2
+                    }]
+                },
+                options: { responsive: true }
+            });
+        }
+
+        function runVolatilityForecast() {
+            const ctx = document.getElementById('volatilityChart').getContext('2d');
+            new Chart(ctx, {
+                type: 'line',
+                data: {
+                    labels: ["Now", "1M", "3M", "6M", "9M", "12M"],
+                    datasets: [{
+                        label: "Volatility Forecast",
+                        data: [20, 25, 30, 28, 26, 24],
+                        borderColor: "orange",
+                        borderWidth: 2
+                    }]
+                },
+                options: { responsive: true }
+            });
+        }
+
+        function runStressTest() {
+            const ctx = document.getElementById('stressTestChart').getContext('2d');
+            new Chart(ctx, {
+                type: 'bar',
+                data: {
+                    labels: ["Bull Market", "Recession", "Crash", "Inflation Spike"],
+                    datasets: [{
+                        label: "Portfolio Impact",
+                        data: [10, -15, -30, -5],
+                        backgroundColor: ["green", "red", "darkred", "orange"]
+                    }]
+                },
+                options: { responsive: true }
+            });
+        }
+
+        function runOptionsPricing() {
+            const S = 180;  // Fake AAPL stock price
+            const K = 200;  // Strike Price
+            const T = 0.5;  // Time to Expiration (6 months)
+            const r = 0.05; // Risk-Free Rate (5%)
+            const sigma = 0.2; // Volatility (20%)
+
+            const d1 = (Math.log(S / K) + (r + (sigma ** 2) / 2) * T) / (sigma * Math.sqrt(T));
+            const d2 = d1 - sigma * Math.sqrt(T);
+            const optionPrice = S * 0.5 - K * Math.exp(-r * T) * 0.5; // Simplified
+
+            document.getElementById("optionValue").innerText = `$${optionPrice.toFixed(2)}`;
+        }
+    </script>
+</body>
+</html>
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>QuantQXP - Forecasts</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <h1>Macroeconomic & Market Forecasts</h1>
+
+    <!-- Macroeconomic Forecasting -->
+    <h2>Macroeconomic Forecast Simulator</h2>
+    <div class="macro-container">
+        <label>Interest Rate (%)</label>
+        <input type="number" id="interestRate" value="3.5">
+
+        <label>Inflation Rate (%)</label>
+        <input type="number" id="inflationRate" value="2.0">
+
+        <label>GDP Growth (%)</label>
+        <input type="number" id="gdpGrowth" value="2.5">
+
+        <label>Unemployment Rate (%)</label>
+        <input type="number" id="unemploymentRate" value="4.0">
+
+        <label>Corporate Tax Rate (%)</label>
+        <input type="number" id="taxRate" value="21">
+
+        <label>Federal Reserve Policy</label>
+        <select id="fedPolicy">
+            <option value="dovish">Dovish (Lower Rates)</option>
+            <option value="neutral">Neutral</option>
+            <option value="hawkish">Hawkish (Higher Rates)</option>
+        </select>
+
+        <button onclick="runMacroForecast()">Simulate Market Reaction</button>
+        <canvas id="macroChart"></canvas>
+    </div>
+
+    <!-- Sector Rotation Forecasting -->
+    <h2>Sector Rotation Model</h2>
+    <div class="sector-forecast-container">
+        <button onclick="runSectorForecast()">Forecast Market Sectors</button>
+        <canvas id="sectorChart"></canvas>
+    </div>
+
+    <!-- Global Market Correlation -->
+    <h2>Global Market Correlation</h2>
+    <div class="global-market-container">
+        <button onclick="runGlobalCorrelation()">Analyze Global Market Impact</button>
+        <canvas id="globalChart"></canvas>
+    </div>
+
+    <!-- Include Chart.js -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+    <!-- JavaScript for Macroeconomic Simulations -->
+    <script>
+        function runMacroForecast() {
+            const interestRate = parseFloat(document.getElementById("interestRate").value);
+            const inflationRate = parseFloat(document.getElementById("inflationRate").value);
+            const gdpGrowth = parseFloat(document.getElementById("gdpGrowth").value);
+            const unemploymentRate = parseFloat(document.getElementById("unemploymentRate").value);
+            const taxRate = parseFloat(document.getElementById("taxRate").value);
+            const fedPolicy = document.getElementById("fedPolicy").value;
+
+            let marketImpact = 100 + (gdpGrowth * 2) - (interestRate * 1.5) - (inflationRate * 1.2) - (unemploymentRate * 1.3) - (taxRate * 0.5);
+
+            if (fedPolicy === "hawkish") marketImpact -= 5;
+            if (fedPolicy === "dovish") marketImpact += 5;
+
+            const ctx = document.getElementById('macroChart').getContext('2d');
+            new Chart(ctx, {
+                type: 'bar',
+                data: {
+                    labels: ["Interest Rates", "Inflation", "GDP Growth", "Unemployment", "Taxes", "Fed Policy"],
+                    datasets: [{
+                        label: "Market Impact Score",
+                        data: [interestRate * -1.5, inflationRate * -1.2, gdpGrowth * 2, unemploymentRate * -1.3, taxRate * -0.5, fedPolicy === "hawkish" ? -5 : fedPolicy === "dovish" ? 5 : 0],
+                        backgroundColor: ["red", "orange", "green", "red", "red", "blue"]
+                    }]
+                },
+                options: { responsive: true }
+            });
+        }
+
+        function runSectorForecast() {
+            const ctx = document.getElementById('sectorChart').getContext('2d');
+            new Chart(ctx, {
+                type: 'bar',
+                data: {
+                    labels: ["Technology", "Energy", "Financials", "Healthcare", "Consumer Goods"],
+                    datasets: [{
+                        label: "Projected Sector Performance",
+                        data: [10, -5, 2, 7, -3],
+                        backgroundColor: ["blue", "green", "orange", "red", "purple"]
+                    }]
+                },
+                options: { responsive: true }
+            });
+        }
+
+        function runGlobalCorrelation() {
+            const ctx = document.getElementById('globalChart').getContext('2d');
+            new Chart(ctx, {
+                type: 'line',
+                data: {
+                    labels: ["S&P 500", "China Market", "Europe Market", "Emerging Markets"],
+                    datasets: [{
+                        label: "Global Market Influence",
+                        data: [1, 0.8, 0.7, 0.6],
+                        borderColor: "yellow",
+                        borderWidth: 2
+                    }]
+                },
+                options: { responsive: true }
+            });
+        }
+    </script>
+</body>
+</html>

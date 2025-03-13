@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>QuantQXP - Profile</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <h1>User Profile</h1>
+
+    <div class="navbar">
+        <a href="index.html">Dashboard</a>
+        <a href="news.html">News</a>
+        <a href="analysis.html">Analysis</a>
+        <a href="forecasts.html">Forecasts</a>
+        <a href="profile.html">Profile</a>
+        <a href="private_markets.html">Private Markets</a>
+        <a href="foreign_markets.html">Foreign Markets</a>
+    </div>
+
+    <!-- Profile Info -->
+    <div class="profile-container">
+        <img src="profile-placeholder.png" alt="Profile Picture" class="profile-pic">
+        <h2 id="userName">John Doe</h2>
+        <p id="userEmail">johndoe@email.com</p>
+    </div>
+
+    <!-- Net Worth Calculator -->
+    <h2>Net Worth Calculator</h2>
+    <div class="net-worth-container">
+        <h3>Assets</h3>
+        <table id="assetsTable">
+            <tr>
+                <th>Asset</th>
+                <th>Value ($)</th>
+                <th>Remove</th>
+            </tr>
+        </table>
+        <button onclick="addAsset()">Add Asset</button>
+
+        <h3>Liabilities</h3>
+        <table id="liabilitiesTable">
+            <tr>
+                <th>Liability</th>
+                <th>Value ($)</th>
+                <th>Remove</th>
+            </tr>
+        </table>
+        <button onclick="addLiability()">Add Liability</button>
+
+        <h3>Total Net Worth</h3>
+        <p id="netWorth">$0</p>
+    </div>
+    <!-- Portfolio Tracker -->
+    <h2>Portfolio Tracker</h2>
+    <div class="portfolio-container">
+        <table id="portfolioTable">
+            <tr>
+                <th>Stock</th>
+                <th>Shares</th>
+                <th>Purchase Price ($)</th>
+                <th>Current Price ($)</th>
+                <th>Gain/Loss ($)</th>
+                <th>Remove</th>
+            </tr>
+        </table>
+        <button onclick="addStock()">Add Stock</button>
+
+        <h3>Total Portfolio Value</h3>
+        <p id="portfolioValue">$0</p>
+    </div>
+
+    <script>
+        function addAsset() {
+            const table = document.getElementById("assetsTable");
+            const row = table.insertRow(-1);
+            const cell1 = row.insertCell(0);
+            const cell2 = row.insertCell(1);
+            const cell3 = row.insertCell(2);
+
+            cell1.innerHTML = `<input type="text" placeholder="Asset Name">`;
+            cell2.innerHTML = `<input type="number" class="asset-value" oninput="calculateNetWorth()">`;
+            cell3.innerHTML = `<button onclick="removeRow(this)">X</button>`;
+        }
+
+        function addLiability() {
+            const table = document.getElementById("liabilitiesTable");
+            const row = table.insertRow(-1);
+            const cell1 = row.insertCell(0);
+            const cell2 = row.insertCell(1);
+            const cell3 = row.insertCell(2);
+
+            cell1.innerHTML = `<input type="text" placeholder="Liability Name">`;
+            cell2.innerHTML = `<input type="number" class="liability-value" oninput="calculateNetWorth()">`;
+            cell3.innerHTML = `<button onclick="removeRow(this)">X</button>`;
+        }
+
+        function removeRow(button) {
+            button.parentElement.parentElement.remove();
+            calculateNetWorth();
+        }
+
+        function calculateNetWorth() {
+            let assets = document.querySelectorAll(".asset-value");
+            let liabilities = document.querySelectorAll(".liability-value");
+
+            let totalAssets = 0;
+            assets.forEach(input => {
+                totalAssets += Number(input.value) || 0;
+            });
+
+            let totalLiabilities = 0;
+            liabilities.forEach(input => {
+                totalLiabilities += Number(input.value) || 0;
+            });
+
+            let netWorth = totalAssets - totalLiabilities;
+            document.getElementById("netWorth").innerText = `$${netWorth.toLocaleString()}`;
+        }
+        const fakeStockPrices = {
+            "AAPL": 180.50,
+            "TSLA": 200.25,
+            "NVDA": 650.75,
+            "AMZN": 155.80,
+            "MSFT": 320.45
+        };
+
+        function addStock() {
+            const table = document.getElementById("portfolioTable");
+            const row = table.insertRow(-1);
+            const cell1 = row.insertCell(0);
+            const cell2 = row.insertCell(1);
+            const cell3 = row.insertCell(2);
+            const cell4 = row.insertCell(3);
+            const cell5 = row.insertCell(4);
+            const cell6 = row.insertCell(5);
+
+            cell1.innerHTML = `<input type="text" placeholder="Ticker (e.g., AAPL)">`;
+            cell2.innerHTML = `<input type="number" class="shares" oninput="updatePortfolio()">`;
+            cell3.innerHTML = `<input type="number" class="purchase-price" oninput="updatePortfolio()">`;
+            cell4.innerHTML = `<span class="current-price">-</span>`;
+            cell5.innerHTML = `<span class="gain-loss">-</span>`;
+            cell6.innerHTML = `<button onclick="removeRow(this)">X</button>`;
+        }
+
+        function removeRow(button) {
+            button.parentElement.parentElement.remove();
+            updatePortfolio();
+        }
+
+        function updatePortfolio() {
+            let totalValue = 0;
+            const rows = document.querySelectorAll("#portfolioTable tr");
+
+            rows.forEach((row, index) => {
+                if (index === 0) return;  // Skip header row
+
+                const tickerInput = row.cells[0].querySelector("input");
+                const sharesInput = row.cells[1].querySelector("input");
+                const purchasePriceInput = row.cells[2].querySelector("input");
+                const currentPriceSpan = row.cells[3].querySelector("span");
+                const gainLossSpan = row.cells[4].querySelector("span");
+
+                const ticker = tickerInput.value.trim().toUpperCase();
+                const shares = parseFloat(sharesInput.value) || 0;
+                const purchasePrice = parseFloat(purchasePriceInput.value) || 0;
+                const currentPrice = fakeStockPrices[ticker] || 0;
+
+                if (currentPrice > 0) {
+                    const totalCurrentValue = shares * currentPrice;
+                    const totalCost = shares * purchasePrice;
+                    const gainLoss = totalCurrentValue - totalCost;
+
+                    currentPriceSpan.innerText = `$${currentPrice.toFixed(2)}`;
+                    gainLossSpan.innerText = `$${gainLoss.toFixed(2)}`;
+                    gainLossSpan.style.color = gainLoss >= 0 ? "green" : "red";
+
+                    totalValue += totalCurrentValue;
+                } else {
+                    currentPriceSpan.innerText = "-";
+                    gainLossSpan.innerText = "-";
+                }
+            });
+
+            document.getElementById("portfolioValue").innerText = `$${totalValue.toLocaleString()}`;
+        }
+
+    </script>
+</body>
+</html>
